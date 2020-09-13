@@ -55,9 +55,11 @@ void pulse(int player, int count, int timer) {
 
 void checkForWin() {
   if(upScore == 11) {
+    Serial.println("Up Wins!");
     pulse(upPlayer, 10, defaultTimer);
     endGame();
   } else if (downScore == 1) {
+    Serial.println("Down Wins!");
     pulse(downPlayer, 10, defaultTimer);
     endGame();
   }
@@ -69,6 +71,7 @@ void endGame() {
 
 void volley() {
   checkForWin();
+  currentScore();
   if(currentServe == upPlayer) {
     upHit();
   } else {
@@ -96,6 +99,7 @@ void upHit() {
     delay(timer);   
   }
   if(winner){
+    Serial.println("Point for Up");
     upScore++;
     pulse(upPlayer, 4, defaultTimer);
     currentServe = upPlayer;
@@ -114,6 +118,7 @@ void downHit() {
     delay(timer); 
   }
   if(winner){
+    Serial.println("Point for Down");
     downScore++;
     pulse(downPlayer, 4, defaultTimer);
     currentServe = downPlayer;
@@ -121,4 +126,10 @@ void downHit() {
   } else {
     upHit();
   }
+}
+
+void currentScore() {
+  char data[100];
+  sprintf(data, "Up: %d\tDown: %d", upScore, downScore);
+  Serial.println(data);
 }
